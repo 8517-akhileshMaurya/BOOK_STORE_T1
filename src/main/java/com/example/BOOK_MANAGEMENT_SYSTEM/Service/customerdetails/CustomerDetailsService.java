@@ -1,5 +1,6 @@
 package com.example.BOOK_MANAGEMENT_SYSTEM.Service.customerdetails;
 
+import com.example.BOOK_MANAGEMENT_SYSTEM.ExceptionHandling.CustomerNotFoundException;
 import com.example.BOOK_MANAGEMENT_SYSTEM.model.CustomerDetails;
 import com.example.BOOK_MANAGEMENT_SYSTEM.repository.customerdetails.CustomerDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,8 @@ public class CustomerDetailsService {
     private CustomerDetailsRepository customerDetailsRepository;
 
     public CustomerDetails getCustomerDetailsByUserId(Long userId) {
-        return customerDetailsRepository.findByUserId(userId);
+        return customerDetailsRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
     }
 
     public CustomerDetails updateCustomerDetails(CustomerDetails customerDetails) {

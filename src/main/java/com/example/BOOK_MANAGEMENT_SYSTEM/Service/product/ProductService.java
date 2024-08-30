@@ -1,5 +1,6 @@
 package com.example.BOOK_MANAGEMENT_SYSTEM.Service.product;
 
+import com.example.BOOK_MANAGEMENT_SYSTEM.ExceptionHandling.ProductNotFoundException;
 import com.example.BOOK_MANAGEMENT_SYSTEM.model.Product;
 import com.example.BOOK_MANAGEMENT_SYSTEM.repository.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElse(null);
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
     }
 
     public List<Product> getAllProducts() {
