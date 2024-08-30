@@ -9,6 +9,8 @@ import com.example.BOOK_MANAGEMENT_SYSTEM.repository.userRepo.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartService {
     @Autowired
@@ -19,6 +21,17 @@ public class CartService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    //view
+    public List<Cart> viewCart(){
+        return cartRepository.findAll();
+    }
+
+    //delete
+    public void deleteCartItem(Long id){
+        cartRepository.deleteById(id);
+    }
+
 
     public Cart addProductToCart(Long user_id, Long product_id, Integer quantity) {
         Users user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found"));

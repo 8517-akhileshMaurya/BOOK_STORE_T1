@@ -9,21 +9,28 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class userService {
+public class userService implements uInterface {
 
     @Autowired
     private userRepository userRepository;
 
+    @Override
+    public boolean checkUser(String username, String password) {
+        Users user = userRepository.findByUsername(username);
+        return user != null && user.getPassword().equals(password);
+    }
+
+
+//    @Autowired
+//    private userRepository userRepository;
+//
     public List<Users> getUser(){
         return userRepository.findAll();
     }
 
-
-
     public void registerUser(Users users) {
          userRepository.save(users);
     }
-
 
     public String loginUser(String username, String password) {
         Users user = userRepository.findByUsername(username);
@@ -35,16 +42,7 @@ public class userService {
         }
     }
 
-    public Boolean checkUser(String username, String password){
-        int countt = (int) userRepository.findAll().stream().filter((a)->{
-            return a.getUsername().equals(username) && a.getPassword().equals(password);
-        }).count();
 
-        if(countt!=0){
-            return true;
-        }
-        return false;
-    }
 
 
 }

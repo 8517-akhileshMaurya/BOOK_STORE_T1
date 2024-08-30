@@ -1,22 +1,18 @@
-package com.example.BOOK_MANAGEMENT_SYSTEM.Service.wishliaService;
+package com.example.BOOK_MANAGEMENT_SYSTEM.Service.orderService;
 
-import com.example.BOOK_MANAGEMENT_SYSTEM.model.cartModel.Cart;
+import com.example.BOOK_MANAGEMENT_SYSTEM.model.orderModel.Order;
 import com.example.BOOK_MANAGEMENT_SYSTEM.model.productModel.Product;
 import com.example.BOOK_MANAGEMENT_SYSTEM.model.userModel.Users;
-import com.example.BOOK_MANAGEMENT_SYSTEM.model.wishlistModel.Wishlist;
 import com.example.BOOK_MANAGEMENT_SYSTEM.repository.ProductRepository.ProductRepository;
+import com.example.BOOK_MANAGEMENT_SYSTEM.repository.orderRepository.OrderRepository;
 import com.example.BOOK_MANAGEMENT_SYSTEM.repository.userRepo.userRepository;
-import com.example.BOOK_MANAGEMENT_SYSTEM.repository.wishlistRepository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class WishlistService {
-
+public class OrderService {
     @Autowired
-    private WishlistRepository wishlistRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
     private userRepository userRepository;
@@ -24,23 +20,19 @@ public class WishlistService {
     @Autowired
     private ProductRepository productRepository;
 
-
-
-
-
-
-    //add
-    public Wishlist addProductToWishlist(Long user_id, Long product_id, Integer quantity) {
+    public Order makeOrder(Long user_id, Long product_id, Integer quantity , String order_status){
         Users user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found"));
         Product product = productRepository.findById(product_id).orElseThrow(() -> new RuntimeException("Product not found"));
 
-        Wishlist wishlist = new Wishlist();
-        wishlist.setUser(user);
-        wishlist.setProduct(product);
+        Order order = new Order();
+        order.setUser_id(user_id);
+        order.setProduct_id(product_id);
+        order.setOrder_status(order.getOrder_status());
+        order.setUser(user);
+        order.setProduct(product);
+        order.setTotal_amount(order.getTotal_amount());
 
-
-        return wishlistRepository.save(wishlist);
-
+        return orderRepository.save(order);
 
     }
 }
