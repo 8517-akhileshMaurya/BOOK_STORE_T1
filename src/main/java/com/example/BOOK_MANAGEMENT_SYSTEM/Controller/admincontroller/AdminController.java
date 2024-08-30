@@ -31,7 +31,7 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginAdmin(@RequestBody Admin admin) {
+    public ResponseEntity<String> loginAdmin(@Valid @RequestBody Admin admin) {
         boolean isAuthenticated = adminService.authenticateAdmin(admin.getAdminUsername(), admin.getAdminPassword());
         if (isAuthenticated) {
             return ResponseEntity.ok("Login successful");
